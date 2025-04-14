@@ -55,7 +55,7 @@ export default function Navbar() {
             <Link>Blog</Link>
           </Center>
           <Center>
-            <Link>Register As A Professional</Link>
+          <Link to="/register">Register As A Professional</Link>
           </Center>
 
           <Link>

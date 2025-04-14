@@ -1,4 +1,5 @@
 import React from "react";
+import Registration from '../Components/Registration';
 import { Route, Routes } from "react-router-dom";
 
 import Home from "./Home";
@@ -12,6 +13,7 @@ export default function AllRoute() {
       <Route path="/" element={<Home />}></Route>
       <Route path="/" element={<h1>Home</h1>}></Route>
       <Route path="/" element={<h1>Home</h1>}></Route>
+      <Route path="/register" element={<Registration />} />
       <Route path="/womensaloon" element={<WomenSaloon />}></Route>
       <Route path="/mensaloon" element={<MenSaloon />}></Route>
       <Route path="/womensaloon" element={<WomenSaloon />}></Route>

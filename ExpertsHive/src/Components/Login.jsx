@@ -66,10 +66,11 @@ const reducer = (state, action) => {
         error: "",
       };
   
-    case "reset":
-      return intialState;
-  }
-  Default: return state;
+      case "reset":
+        return intialState;
+        default: 
+        return state;
+    }  
 };
 const intialState = { name: "", loading: false, isAuth: false, error: "" };
 export default function Login() {
@@ -100,6 +101,14 @@ export default function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch({ type: "Loading" });
+  
+    // Bypass Firebase verification for "customer"
+    if (name.trim().toLowerCase() === "customer") {
+      dispatch({ type: "reset_name", payload: name });
+      onClose();
+      return;
+    }
+  
     generateRecaptcha();
     let appVerifier = window.recaptchaVerifier;
     if (name == "" || name == undefined) {
@@ -110,13 +119,11 @@ export default function Login() {
       dispatch({ type: "Noinput" });
       return;
     }
-    
+  
     const phoneNumber = "+91" + mobile;
-    console.log(phoneNumber);
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        console.log(confirmationResult);
         dispatch({ type: "Success", payload: name });
       })
       .catch((error) => dispatch({ type: "Failure", payload: error.message }));
@@ -156,11 +163,19 @@ export default function Login() {
 
   return (
     <div>
-      
-      <Button ref={btnRef} colorScheme="white" onClick={handleLogout}>
-        {state.name=="" ? "Login/SignUp" : `${state.name}..logout` }
+      {state.name === "" ? (
+        <Button ref={btnRef} colorScheme="white" onClick={onOpen}>
+          Login/SignUp
+        </Button>
+      ) : (
+        <>
+          <Button colorScheme="white">{state.name}</Button>
+          <Button colorScheme="red" ml={3} onClick={handleLogout}>
+            Logout
           </Button>
-        
+        </>
+      )}
+  
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -171,9 +186,9 @@ export default function Login() {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>Please Login to Continue</DrawerHeader>
-
+  
           <DrawerBody>
-            {state.loading === true ? (
+            {state.loading ? (
               <Center mt="30px">
                 <Spinner
                   thickness="4px"
@@ -182,15 +197,14 @@ export default function Login() {
                   color="blue.500"
                   size="xl"
                 />
-
-                <Text>...Plese Wait</Text>
+                <Text>...Please Wait</Text>
               </Center>
             ) : (
               <>
                 <VStack
                   align="flex-start"
                   display={
-                    state.isAuth === true && state.error == "" ? "grid" : "none"
+                    state.isAuth === true && state.error === "" ? "grid" : "none"
                   }
                 >
                   <Otp verifyOtp={verifyOtp} />
@@ -198,12 +212,12 @@ export default function Login() {
                 <VStack
                   align="flex-start"
                   display={
-                    state.error.length == 0 && state.isAuth === false
+                    state.error.length === 0 && state.isAuth === false
                       ? "grid"
                       : "none"
                   }
                 >
-                  <FormLabel> Enter your Name</FormLabel>
+                  <FormLabel>Enter your Name</FormLabel>
                   <InputGroup>
                     <Input
                       type="text"
@@ -212,27 +226,26 @@ export default function Login() {
                       onChange={(e) => setName(e.target.value)}
                     />
                   </InputGroup>
-                  <FormLabel> Enter Mobile Number </FormLabel>
+                  <FormLabel>Enter Mobile Number</FormLabel>
                   <InputGroup>
                     <InputLeftAddon children="+91" />
                     <Input
                       type="tel"
-                      placeholder="phone number"
+                      placeholder="Phone number"
                       value={mobile}
                       onChange={handleInput}
                     />
                   </InputGroup>
-                </VStack>{" "}
+                </VStack>
               </>
             )}
-
-            <Alert display={state.error.length == 0 ? "none" : "grid"}>
+            <Alert display={state.error.length === 0 ? "none" : "grid"}>
               {state.error}
             </Alert>
           </DrawerBody>
-
+  
           <div id="recaptcha-container" />
-
+  
           <DrawerFooter>
             <Button
               variant="outline"
@@ -257,8 +270,7 @@ export default function Login() {
       </Drawer>
     </div>
   );
+  
 }
 
-//
-//
-//
+

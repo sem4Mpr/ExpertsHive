@@ -139,10 +139,8 @@ export default function Home() {
       <div className="Body">
         <div className="Navbar">
           <Navbar />
-          <Text p={2} mt="5%">
-            <Link to="/"> Home/ </Link>
-          </Text>
-          <Heading p={2} size={["25px", "xl", "2xl"]} noOfLines={1}>
+          
+          <Heading mt={{ base: "70%", md: "50%", lg: "15%" }} p={2} size={["25px", "xl", "2xl"]} noOfLines={1}>
             Home Services, on demand.
           </Heading>
           <Box p={9}>

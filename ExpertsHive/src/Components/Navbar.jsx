@@ -16,17 +16,16 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   PopoverAnchor,
-  Center
+  Center,
+  background
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Login from "./Login";
 
-
 export default function Navbar() {
 
-  
   const handleSideBar = () => {};
 
   return (
@@ -38,35 +37,40 @@ export default function Navbar() {
       pl="40px"
       pr="40px"
       justifyContent="space-between"
-      bg="transperent"
+      bg="transparent"
     >
+      {/* Logo */}
       <Box>
         <Link to="/">
-          <Image
-            src="https://res.cloudinary.com/urbanclap/image/upload/images/growth/home-screen/1631097450980-d2de38.png"
-            w="30%"
-          />
+          <h1 style={{fontSize: "25px", fontWeight: "1000px"}}>Experts<span style={{fontColor:"#0000"}}>Hive</span></h1>
         </Link>
       </Box>
+
       <Spacer />
+
+      {/* Desktop View */}
       <Show breakpoint="(min-width: 1000px)">
         <Flex gap="5">
           <Center>
-            <Link>Blog</Link>
+            <Link to="/blog">Blog</Link>
           </Center>
           <Center>
-          <Link to="/register">Register As A Professional</Link>
+            <Link to="/register">Register As A Professional</Link>
           </Center>
-
-          <Link>
-            
-            <Center>
-              
-              <Login />
-            </Center>
-          </Link>
+          <Center>
+            <Link to="/cart">
+              <Button colorScheme="#ffff" variant="outline" size="sm" >
+                Cart
+              </Button>
+            </Link>
+          </Center> 
+          <Center>
+            <Login />
+          </Center>
         </Flex>
       </Show>
+
+      {/* Mobile View */}
       <Hide above="1000px">
         <Popover>
           <PopoverTrigger>
@@ -77,19 +81,22 @@ export default function Navbar() {
           <PopoverContent>
             <PopoverArrow />
             <PopoverCloseButton />
-
             <PopoverBody color="black">
               <Grid gap="20px" p={8}>
-                <Link>Blog</Link>
-                <Link>Register As A Professional</Link>
-                <Link>
-                  <Login />
+                <Link to="/blog">Blog</Link>
+                <Link to="/register">Register As A Professional</Link>
+                <Link to="/cart">
+                  <Button colorScheme="teal" variant="outline" size="sm" w="100%">
+                    Cart
+                  </Button>
                 </Link>
+                <Login />
               </Grid>
             </PopoverBody>
           </PopoverContent>
         </Popover>
       </Hide>
+
       <Box></Box>
     </Flex>
   );

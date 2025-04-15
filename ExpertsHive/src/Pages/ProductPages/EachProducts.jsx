@@ -8,13 +8,19 @@ import {
   Center,
   Heading,
   VStack,
-
 } from "@chakra-ui/react";
 
-import {  StarIcon } from "@chakra-ui/icons";
+import { StarIcon } from "@chakra-ui/icons";
 import UpdatingToastExample from "./BelowAlert";
+import { useCart } from "../../Context/CartContextProvider"; // ✅ Import cart context
 
-export default function EachProducts({ heading, products,handleAdd,id }) {
+export default function EachProducts({ heading, products, id }) {
+  const { addToCart } = useCart(); // ✅ Use addToCart from context
+
+  const handleAdd = (product) => {
+    addToCart(product);
+  };
+
   return (
     <VStack w="full" align="flex" ml="30px" id={id}>
       <Heading mb="20px" mt="25px" align="flex-start">
@@ -22,6 +28,7 @@ export default function EachProducts({ heading, products,handleAdd,id }) {
       </Heading>
       {products.map((el) => (
         <Flex
+          key={el.id}
           borderWidth="5px"
           borderRadius="lg"
           pr="5"
@@ -75,8 +82,8 @@ export default function EachProducts({ heading, products,handleAdd,id }) {
             </VStack>
           </Grid>
           <Center>
-            <Button bg="green.300" onClick={() => handleAdd(el.price)}>
-              <UpdatingToastExample/>
+            <Button bg="green.300" onClick={() => handleAdd(el)}>
+              <UpdatingToastExample />
             </Button>
           </Center>
         </Flex>

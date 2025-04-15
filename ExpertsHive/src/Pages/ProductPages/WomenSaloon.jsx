@@ -65,10 +65,7 @@ export default function WomenSaloon() {
       >
         <Box>
           <Link to="/">
-            <Image
-              src="https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_36,dpr_1,fl_progressive:steep,q_auto,c_limit/images/supply/customer-app-supply/1648463875565-a4ce06.svg"
-              w="100%"
-            />
+            <h1 style={{fontSize: "25px", fontWeight: "1000px"}}>Experts<span style={{fontColor:"#0000"}}>Hive</span></h1>
           </Link>
         </Box>
         <Spacer />
